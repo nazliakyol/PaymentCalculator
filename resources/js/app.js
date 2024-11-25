@@ -4,13 +4,13 @@ import MainLayout from "./Layouts/MainLayout.vue";
 
 createInertiaApp({
 
-    resolve: async (name) => {
+    resolve: name => {
         const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
         const page = pages[`./Pages/${name}.vue`]
-        const resolvedPage = await page();
+        // const resolvedPage = await page();
 
-        resolvedPage.default.layout = resolvedPage.default.layout || MainLayout
-        return resolvedPage;
+        page.default.layout = page.default.layout || MainLayout
+        return page;
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
