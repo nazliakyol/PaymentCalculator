@@ -4,18 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Termwind\Components\Li;
 
 class ListingController extends Controller
 {
+
+//    public function __construct()
+//    {
+        //    an alternative to specifying the routes that is the auth middleware has not applied -if you don't want to apply them in the web.php-
+//        $this->middleware('auth')->except(['index', 'show']);
+
+//        $this->authorizeResource(Listing::class, 'listing');    }
+//    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         return inertia('Listing/Index',
             [
-                'listings' => Listing::all(),
+                'listings' => Listing::orderByDesc('created_at')->paginate(10)->withQueryString(),
+                'filters' => $request->only(
+                    [ 'priceFrom', 'priceTo', 'beds', 'baths', 'areaFrom', 'areaTo']
+                ),
             ]);
     }
 
@@ -33,18 +45,18 @@ class ListingController extends Controller
      */
     public function store(Request $request)
     {
-        Listing::create(
+        $request->user()->listings()->create(
             $request->validate([
                 'beds' => 'required|integer|min:0|max:20',
                 'baths' => 'required|integer|min:0|max:20',
                 'area' => 'required|integer|min:0|max:1000',
                 'city' => 'required|string|max:255',
-                'postCode' => 'required|string|max:255',
+                'code' => 'required|string|max:255',
                 'street' => 'required|string|max:255',
                 'street-nr' => 'required|string|max:255',
                 'price' => 'required|integer|min:0|max:10000000',
             ])
-    );
+        );
         return redirect()->route('listing.index')->with('success', 'Listing created successfully.');
     }
 
@@ -53,6 +65,11 @@ class ListingController extends Controller
      */
     public function show(Listing $listing)
     {
+//        if (Auth::user()->cannot("view", $listing)) {
+//            abort(403);
+//        }
+
+//        $this->authorize('view', $listing);
         return inertia('Listing/Show',
             [
                 'listing' => $listing,
@@ -81,7 +98,7 @@ class ListingController extends Controller
                 'baths' => 'required|integer|min:0|max:20',
                 'area' => 'required|integer|min:0|max:1000',
                 'city' => 'required|string|max:255',
-                'postCode' => 'required|string|max:255',
+                'code' => 'required|string|max:255',
                 'street' => 'required|string|max:255',
                 'street-nr' => 'required|string|max:255',
                 'price' => 'required|integer|min:0|max:10000000',
