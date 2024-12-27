@@ -9,17 +9,27 @@
                     <Link :href="route('listing.index')">LaraZillow</Link>&nbsp;
                 </div>
                 <div>
-                    <Link :href="route('listing.create')"
-                          class="btn-primary">+ New Listing
-                    </Link>&nbsp;
+                    <div v-if="user" class="flex items-center gap-4">
+                        <div class=" text-sm text-gray-500"> {{ user.name }}</div>
+                        <Link :href="route('listing.create')"
+                              class="btn-primary">+ New Listing
+                        </Link>&nbsp;
+                        <div>
+                            <Link :href="route('logout')" method="DELETE" as="button">Logout</Link>
+                        </div>
+                    </div>
+                    <div v-else class="flex items-center gap-2">
+                        <Link :href="route('user-account.create')">Register</Link>
+                        <Link :href="route('login')">Login</Link>
+                    </div>
                 </div>
             </nav>
         </div>
     </header>
     <main class="container mx-auto p-4 w-full">
-        <div v-if="flashSuccess" class="mb-4 border rounded-md shadow-sm border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900 p-2">
+        <div v-if="flashSuccess"
+             class="mb-4 border rounded-md shadow-sm border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900 p-2">
             {{ flashSuccess }}
-            Flash!
         </div>
         <slot>Default</slot>
     </main>
@@ -32,5 +42,9 @@ import {ref, computed} from 'vue';
 const x = ref(0);
 const y = computed(() => x.value * 2);
 const page = usePage();
+const user = computed(
+    () => page.props.user
+);
+
 const flashSuccess = computed(() => page.props.flash.success);
 </script>

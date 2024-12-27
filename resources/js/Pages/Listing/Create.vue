@@ -27,7 +27,7 @@
             <div class="col-span-2">
                 <label class="label">Post Code</label>
                 <input v-model="form.code" type="text" class="input" />
-                <div v-if="form.errors.postCode" class="input-error"> {{ form.errors.postCode }}</div>
+                <div v-if="form.errors.code" class="input-error"> {{ form.errors.code }}</div>
 
             </div>
             <div class="col-span-4">
@@ -63,7 +63,7 @@ const form = useForm({
     baths: 0,
     area: 0,
     city: "",
-    postCode: "",
+    code: "",
     street: "",
     street_nr: "",
     price: 0,
@@ -72,6 +72,5 @@ const form = useForm({
 const create = () => {
     form.post(route("listing.store"));
 }
-// form.beds = 5;
 
 </script>
