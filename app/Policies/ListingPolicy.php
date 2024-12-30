@@ -11,7 +11,7 @@ class ListingPolicy
 
     public function before(?User $user, $ability)
     {
-        if ($user & $user->is_admin /*&& $ability !== 'create'*/ ){
+        if ( $user?->is_admin /*&& $ability !== 'create'*/ ){
             return true;
         }
         return false;

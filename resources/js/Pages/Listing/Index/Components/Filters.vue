@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="filter">
+    <form @submit.prevent="filter">
         <div class="mb-8 mt-4 flex flex-wrap gap-2">
             <div class="flex flex-nowrap items-center">
                 <input v-model.number="filterForm.priceFrom" type="text" placeholder="Price from"
@@ -60,7 +60,14 @@ const filter = () => {
 }
 
 const clear = () => {
-    filterForm.reset();
+    filterForm.priceTo = null;
+    filterForm.priceFrom = null;
+    filterForm.beds = null;
+    filterForm.baths = null;
+    filterForm.areaFrom = null;
+    filterForm.areaTo = null;
+    filter();
+    // filterForm.reset();
     // if equal all the values to null then need to add filter function to clear the filters
     // filter();
 }
