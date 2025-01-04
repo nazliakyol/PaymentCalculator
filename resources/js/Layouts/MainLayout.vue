@@ -10,9 +10,14 @@
                 </div>
                 <div>
                     <div v-if="user" class="flex items-center gap-4">
-                        <div class=" text-sm text-gray-500"> {{ user.name }}</div>
-                        <Link :href="route('listing.create')"
-                              class="btn-primary">+ New Listing
+                        <Link
+                            class=" text-sm text-gray-500"
+                            :href="route('realtor.listing.index')">
+                            {{ user.name }}
+                        </Link>
+                        <Link :href="route('realtor.listing.create')"
+                              class="btn-primary">
+                            + New Listing
                         </Link>&nbsp;
                         <div>
                             <Link :href="route('logout')" method="DELETE" as="button">Logout</Link>

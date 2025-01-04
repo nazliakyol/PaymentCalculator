@@ -70,7 +70,7 @@ const form = useForm({
 });
 
 const create = () => {
-    form.post(route("listing.store"));
+    form.post(route("realtor.listing.store"));
 }
 
 </script>
