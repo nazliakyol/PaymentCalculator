@@ -8,6 +8,7 @@ use \App\Http\Controllers\RealtorListingController;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\RealtorListingImageController;
 use \App\Http\Controllers\ListingOfferController;
+use \App\Http\Controllers\RealtorListingAcceptOfferController;
 
 Route::get('/', [IndexController::class, 'index']);
 Route::get('/show', [IndexController::class, 'show'])->middleware('auth');
@@ -29,10 +30,16 @@ Route::prefix('realtor')
     ->name('realtor.')
     ->middleware('auth')
     ->group(function () {
-    Route::name('listing.restore')->put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])->withTrashed();
+    Route::name('listing.restore')
+        ->put('listing/{listing}/restore', [RealtorListingController::class, 'restore'])
+        ->withTrashed();
     Route::resource('listing', RealtorListingController::class)
-    ->only(['index', 'edit', 'update', 'destroy', 'create', 'store'])
-    ->withTrashed();
-
-    Route::resource('listing.image', RealtorListingImageController::class)->only(['create', 'store', 'destroy']);
+        ->withTrashed();
+        Route::name('offer.accept')
+            ->put(
+                'offer/{offer}/accept',
+                RealtorListingAcceptOfferController::class
+            );
+    Route::resource('listing.image', RealtorListingImageController::class)
+        ->only(['create', 'store', 'destroy']);
 });

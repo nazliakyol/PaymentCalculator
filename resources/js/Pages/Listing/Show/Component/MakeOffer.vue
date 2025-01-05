@@ -33,9 +33,20 @@ const props = defineProps(
         price: Number,
     }
 )
+
 const form = useForm({
     amount: props.price,
 })
+
+const makeOffer = () => {
+    form.post(route(
+            'listing.offer.store',
+            { listing: props.listing_id }),
+        {
+            preserveScroll: true,
+            preserveState: true,
+        });
+}
 
 const difference = computed(() => {
     return form.amount - props.price;
@@ -49,21 +60,10 @@ const max = computed(() => {
     return Math.round(props.price * 2);
 })
 
-const makeOffer = () => {
-    form.post(route(
-        'listing.offer.store',
-        { listing: props.listing_id }),
-        {
-            preserveScroll: true,
-            preserveState: true,
-        });
-
-}
-
 const emit = defineEmits(['offerUpdated']);
-debounce(watch(() => form.amount, (value) => {
-    emit('offerUpdated', value);
-}), 200);
-
+watch(
+    () => form.amount,
+    debounce((value) => emit('offerUpdated', value), 200)
+);
 
 </script>

@@ -21,29 +21,36 @@
                         > Preview </a>
                         <Link
                             class="btn-outline text-xs font-medium"
-                            :href="route('realtor.listing.edit', {listing: listing.id})"
+                            :href="route('realtor.listing.edit', { listing: listing.id })"
                         > Edit
                         </Link>
                         <Link v-if="!listing.deleted_at"
                               class="btn-outline text-xs font-medium"
-                              :href="route('realtor.listing.destroy', {listing: listing.id})"
+                              :href="route('realtor.listing.destroy', { listing: listing.id })"
                               as="button"
                               method="delete">
                             Delete
                         </Link>
                         <Link v-else
                               class="btn-outline text-xs font-medium"
-                              :href="route('realtor.listing.restore', {listing: listing.id})"
+                              :href="route('realtor.listing.restore', { listing: listing.id })"
                               as="button"
                               method="put">
                             Restore
                         </Link>
                     </div>
-                    <div>
+                    <div class="mt-2">
                         <Link
                             :href="route('realtor.listing.image.create', { listing: listing.id })"
                             class="block w-full btn-outline text-xs font-medium text-center">
                             Images ({{ listing.images_count }})
+                        </Link>
+                    </div>
+                    <div class="mt-2">
+                        <Link
+                            :href="route('realtor.listing.show', { listing: listing.id })"
+                            class="block w-full btn-outline text-xs font-medium text-center">
+                            Offers ({{ listing.offers_count }})
                         </Link>
                     </div>
                 </section>
@@ -69,11 +76,9 @@ import Pagination from "@/Components/UI/Pagination.vue";
 defineProps({
     listings: {
         type: Object,
-        required: true,
     },
     filters: {
         type: Object,
-        required: true,
     }
 })
 </script>

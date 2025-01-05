@@ -82,7 +82,6 @@ class ListingController extends Controller
 //        if (Auth::user()->cannot("view", $listing)) {
 //            abort(403);
 //        }
-
 //        $this->authorize('view', $listing);
 
         $listing->load(['images']);

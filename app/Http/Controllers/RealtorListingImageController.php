@@ -17,6 +17,16 @@ class RealtorListingImageController extends Controller
         ]);
     }
 
+
+
+    public function show(Listing $listing)
+    {
+        $listing->load('images');
+        return inertia('Realtor/ListingImage/Index', [
+            'listing' => $listing,
+        ]);
+    }
+
     public function store(Listing $listing, Request $request)
     {
 
